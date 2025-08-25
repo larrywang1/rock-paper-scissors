@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpjuiwsoov36x"]
+
+[ext_resource type="Script" uid="uid://ce0hfjy1w0gyl" path="res://level/error.gd" id="1_hcngn"]
+[ext_resource type="Texture2D" uid="uid://cxnwyfot2s57p" path="res://images/error.png" id="1_js4jo"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hcngn"]
+font_size = 32
+font_color = Color(0.894118, 0.176471, 0.219608, 1)
+
+[node name="Error" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_hcngn")
+
+[node name="Node" type="Node2D" parent="."]
+
+[node name="Error" type="Sprite2D" parent="Node"]
+position = Vector2(266, 180)
+texture = ExtResource("1_js4jo")
+
+[node name="Label" type="Label" parent="Node"]
+offset_left = 236.0
+offset_top = 143.0
+offset_right = 442.0
+offset_bottom = 171.0
+text = "NOT ENOUGH MANA"
+label_settings = SubResource("LabelSettings_hcngn")

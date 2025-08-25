@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6i2pkwboec50"]
+
+[ext_resource type="PackedScene" uid="uid://yvm4swoxd1xe" path="res://units/unit.tscn" id="1_bx2ma"]
+[ext_resource type="Script" uid="uid://csr5wo5g8ojfe" path="res://units/paper.gd" id="2_c1ra7"]
+[ext_resource type="Texture2D" uid="uid://cnjwts1p3mik" path="res://images/paper.png" id="2_ysw14"]
+
+[node name="Paper" instance=ExtResource("1_bx2ma")]
+script = ExtResource("2_c1ra7")
+health = 2
+attack = 3
+mana_cost = 1
+cost = 2
+type = "paper"
+name_ = "Paper"
+max_mana = 2
+mana_regen = 1
+bonuses = Dictionary[String, int]({
+"rock": 3,
+"scissor": -2
+})
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_ysw14")

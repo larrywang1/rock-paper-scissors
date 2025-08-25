@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://clelm6f7bdbsl"]
+
+[ext_resource type="PackedScene" uid="uid://yvm4swoxd1xe" path="res://units/unit.tscn" id="1_i8ubv"]
+[ext_resource type="Script" uid="uid://dio75xriq6yfa" path="res://units/paper_airplane.gd" id="2_2ptjo"]
+[ext_resource type="Texture2D" uid="uid://d3ldfi4ulao48" path="res://images/paper_airplane.png" id="2_nopv1"]
+
+[node name="PaperAirplane" instance=ExtResource("1_i8ubv")]
+script = ExtResource("2_2ptjo")
+attack = 3
+type = "paper"
+name_ = "Paper Airplane"
+can_inject_mana = false
+bonuses = Dictionary[String, int]({
+"rock": 3,
+"scissor": -3
+})
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_nopv1")

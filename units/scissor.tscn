@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://l577spyghi8r"]
+
+[ext_resource type="PackedScene" uid="uid://yvm4swoxd1xe" path="res://units/unit.tscn" id="1_lpujn"]
+[ext_resource type="Texture2D" uid="uid://df3nkrs2cmco4" path="res://images/scissors.png" id="2_innhl"]
+[ext_resource type="Script" uid="uid://utqapyifufav" path="res://units/scissor.gd" id="2_yn85k"]
+
+[node name="Scissor" instance=ExtResource("1_lpujn")]
+script = ExtResource("2_yn85k")
+health = 3
+attack = 2
+mana_cost = 1
+cost = 2
+type = "scissor"
+name_ = "Scissor"
+max_mana = 3
+mana_regen = 1
+mana_locked = true
+bonuses = Dictionary[String, int]({
+"paper": 3,
+"rock": -1
+})
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_innhl")
+
+[node name="UnitRayCast2" type="RayCast2D" parent="Hitbox" index="2"]
+target_position = Vector2(0, -70)
+collision_mask = 2
+hit_from_inside = true
+collide_with_areas = true
+collide_with_bodies = false

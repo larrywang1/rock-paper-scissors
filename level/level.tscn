@@ -1,0 +1,698 @@
+[gd_scene load_steps=31 format=3 uid="uid://c1mw0ap74x7ds"]
+
+[ext_resource type="Texture2D" uid="uid://gwxilvgw3hse" path="res://images/background.png" id="1_7lnir"]
+[ext_resource type="Script" uid="uid://icfof05yxe40" path="res://level/level.gd" id="1_qohg2"]
+[ext_resource type="Texture2D" uid="uid://wk7mrslyx4sn" path="res://images/progressbar.png" id="3_ivpvi"]
+[ext_resource type="Script" uid="uid://b12x22hh27of5" path="res://level/hand.gd" id="3_vkbyq"]
+[ext_resource type="Script" uid="uid://i7ltrq2ifnuu" path="res://level/left.gd" id="4_fm1jd"]
+[ext_resource type="Script" uid="uid://cwenkwjt7wnex" path="res://level/hand_slot.gd" id="4_vkbyq"]
+[ext_resource type="Script" uid="uid://bc0vq1ppmyhu7" path="res://level/add_mana.gd" id="5_7jqyl"]
+[ext_resource type="Script" uid="uid://bxv1h0q48gmky" path="res://level/battlefield.gd" id="5_44x8d"]
+[ext_resource type="Script" uid="uid://df3rroylpoakm" path="res://level/battle_slot.gd" id="5_ktfr2"]
+[ext_resource type="Script" uid="uid://rpnytp0nfhvx" path="res://level/right.gd" id="6_m5ivw"]
+[ext_resource type="Script" uid="uid://dl16uymfmbvdi" path="res://level/reroll.gd" id="8_6gtgk"]
+[ext_resource type="Script" uid="uid://boe7btj7a3afj" path="res://level/shop.gd" id="8_cw150"]
+[ext_resource type="Script" uid="uid://drbirta3ycejn" path="res://level/shop_slot.gd" id="9_cw150"]
+[ext_resource type="Script" uid="uid://djpojj71cnigh" path="res://level/deck.gd" id="11_xii2b"]
+[ext_resource type="Script" uid="uid://drtnjb4xnao6r" path="res://level/button.gd" id="12_rhqlf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rhqlf"]
+font_color = Color(0.894118, 0.176471, 0.219608, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_l5lfc"]
+font_color = Color(0.203922, 0.478431, 0.815686, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_m3nah"]
+font_color = Color(1, 0.635294, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fm1jd"]
+font_color = Color(0.27451, 0.294118, 0.403922, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7jqyl"]
+font_color = Color(0.505882, 0.580392, 0.682353, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_m5ivw"]
+font_color = Color(0.203922, 0.478431, 0.815686, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sui6v"]
+size = Vector2(12, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tv7ir"]
+size = Vector2(51, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kp5pi"]
+size = Vector2(12, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ktfr2"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_44x8d"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xii2b"]
+size = Vector2(32, 32)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xii2b"]
+font_size = 32
+font_color = Color(0.27451, 0.294118, 0.403922, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ivpvi"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l5lfc"]
+size = Vector2(101, 52)
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_qohg2")
+mana = 6
+health = 5
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(320, 180)
+texture = ExtResource("1_7lnir")
+metadata/_edit_lock_ = true
+
+[node name="Timer" type="TextureProgressBar" parent="Background"]
+offset_left = -320.0
+offset_top = 168.0
+offset_right = 320.0
+offset_bottom = 208.0
+max_value = 10.0
+step = 0.01
+texture_progress = ExtResource("3_ivpvi")
+
+[node name="Timer2" type="Timer" parent="Background"]
+wait_time = 10.0
+autostart = true
+
+[node name="Health" type="Label" parent="Background"]
+offset_left = -267.0
+offset_top = 67.0
+offset_right = -227.0
+offset_bottom = 81.0
+label_settings = SubResource("LabelSettings_rhqlf")
+
+[node name="Mana" type="Label" parent="Background"]
+offset_left = -267.0
+offset_top = 99.0
+offset_right = -227.0
+offset_bottom = 113.0
+label_settings = SubResource("LabelSettings_l5lfc")
+
+[node name="ManaRegen" type="Label" parent="Background"]
+offset_left = -313.0
+offset_top = 99.0
+offset_right = -273.0
+offset_bottom = 113.0
+label_settings = SubResource("LabelSettings_l5lfc")
+
+[node name="Money" type="Label" parent="Background"]
+offset_left = -267.0
+offset_top = 133.0
+offset_right = -227.0
+offset_bottom = 147.0
+label_settings = SubResource("LabelSettings_m3nah")
+
+[node name="Info" type="Node2D" parent="."]
+
+[node name="Name" type="Label" parent="Info"]
+offset_left = 52.0
+offset_top = 30.0
+offset_right = 143.0
+offset_bottom = 44.0
+label_settings = SubResource("LabelSettings_fm1jd")
+horizontal_alignment = 1
+
+[node name="Class" type="Label" parent="Info"]
+offset_left = 30.0
+offset_top = 48.0
+offset_right = 163.0
+offset_bottom = 62.0
+label_settings = SubResource("LabelSettings_7jqyl")
+horizontal_alignment = 1
+
+[node name="Cost" type="Label" parent="Info"]
+offset_left = 34.0
+offset_top = 32.0
+offset_right = 74.0
+offset_bottom = 46.0
+label_settings = SubResource("LabelSettings_fm1jd")
+
+[node name="HP" type="Label" parent="Info"]
+offset_left = 34.0
+offset_top = 68.0
+offset_right = 74.0
+offset_bottom = 82.0
+label_settings = SubResource("LabelSettings_m5ivw")
+
+[node name="ATK" type="Label" parent="Info"]
+offset_left = 34.0
+offset_top = 87.0
+offset_right = 74.0
+offset_bottom = 101.0
+label_settings = SubResource("LabelSettings_m5ivw")
+
+[node name="DEF" type="Label" parent="Info"]
+offset_left = 34.0
+offset_top = 106.0
+offset_right = 74.0
+offset_bottom = 120.0
+label_settings = SubResource("LabelSettings_m5ivw")
+
+[node name="Mana" type="Label" parent="Info"]
+offset_left = 34.0
+offset_top = 125.0
+offset_right = 74.0
+offset_bottom = 139.0
+label_settings = SubResource("LabelSettings_m5ivw")
+
+[node name="Description" type="Label" parent="Info"]
+offset_left = 34.0
+offset_top = 145.0
+offset_right = 159.0
+offset_bottom = 193.0
+label_settings = SubResource("LabelSettings_m5ivw")
+autowrap_mode = 3
+
+[node name="Left" type="Area2D" parent="Info"]
+script = ExtResource("4_fm1jd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Info/Left"]
+position = Vector2(58, 224)
+shape = SubResource("RectangleShape2D_sui6v")
+
+[node name="AddMana" type="Area2D" parent="Info"]
+script = ExtResource("5_7jqyl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Info/AddMana"]
+position = Vector2(96.5, 223.5)
+shape = SubResource("RectangleShape2D_tv7ir")
+
+[node name="Right" type="Area2D" parent="Info"]
+script = ExtResource("6_m5ivw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Info/Right"]
+position = Vector2(135, 224)
+shape = SubResource("RectangleShape2D_kp5pi")
+
+[node name="Hand" type="Node2D" parent="." node_paths=PackedStringArray("level")]
+script = ExtResource("3_vkbyq")
+level = NodePath("..")
+
+[node name="1" type="Area2D" parent="Hand" node_paths=PackedStringArray("level")]
+script = ExtResource("4_vkbyq")
+level = NodePath("../..")
+unit_position = Vector2(250, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hand/1"]
+position = Vector2(250, 320)
+shape = SubResource("RectangleShape2D_ktfr2")
+
+[node name="2" type="Area2D" parent="Hand" node_paths=PackedStringArray("level")]
+script = ExtResource("4_vkbyq")
+level = NodePath("../..")
+unit_position = Vector2(285, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hand/2"]
+position = Vector2(285, 320)
+shape = SubResource("RectangleShape2D_ktfr2")
+
+[node name="3" type="Area2D" parent="Hand" node_paths=PackedStringArray("level")]
+script = ExtResource("4_vkbyq")
+level = NodePath("../..")
+unit_position = Vector2(320, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hand/3"]
+position = Vector2(320, 320)
+shape = SubResource("RectangleShape2D_ktfr2")
+
+[node name="4" type="Area2D" parent="Hand" node_paths=PackedStringArray("level")]
+script = ExtResource("4_vkbyq")
+level = NodePath("../..")
+unit_position = Vector2(355, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hand/4"]
+position = Vector2(355, 320)
+shape = SubResource("RectangleShape2D_ktfr2")
+
+[node name="5" type="Area2D" parent="Hand" node_paths=PackedStringArray("level")]
+script = ExtResource("4_vkbyq")
+level = NodePath("../..")
+unit_position = Vector2(390, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hand/5"]
+position = Vector2(390, 320)
+shape = SubResource("RectangleShape2D_ktfr2")
+
+[node name="Battlefield" type="Node2D" parent="."]
+script = ExtResource("5_44x8d")
+
+[node name="A1" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(250, 26)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/A1"]
+position = Vector2(250, 26)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="A2" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(285, 26)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/A2"]
+position = Vector2(285, 26)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="A3" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(320, 26)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/A3"]
+position = Vector2(320, 26)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="A4" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(355, 26)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/A4"]
+position = Vector2(355, 26)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="A5" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(390, 26)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/A5"]
+position = Vector2(390, 26)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="B1" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(250, 61)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/B1"]
+position = Vector2(250, 61)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="B2" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(285, 61)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/B2"]
+position = Vector2(285, 61)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="B3" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(320, 61)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/B3"]
+position = Vector2(320, 61)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="B4" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(355, 61)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/B4"]
+position = Vector2(355, 61)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="B5" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(390, 61)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/B5"]
+position = Vector2(390, 61)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="C1" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(250, 96)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/C1"]
+position = Vector2(250, 96)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="C2" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(285, 96)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/C2"]
+position = Vector2(285, 96)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="C3" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(320, 96)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/C3"]
+position = Vector2(320, 96)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="C4" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(355, 96)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/C4"]
+position = Vector2(355, 96)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="C5" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(390, 96)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/C5"]
+position = Vector2(390, 96)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="D1" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(250, 131)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/D1"]
+position = Vector2(250, 131)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="D2" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(285, 131)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/D2"]
+position = Vector2(285, 131)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="D3" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(320, 131)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/D3"]
+position = Vector2(320, 131)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="D4" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(355, 131)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/D4"]
+position = Vector2(355, 131)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="D5" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(390, 131)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/D5"]
+position = Vector2(390, 130)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="E1" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(250, 166)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/E1"]
+position = Vector2(250, 166)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="E2" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(285, 166)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/E2"]
+position = Vector2(285, 166)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="E3" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(320, 166)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/E3"]
+position = Vector2(320, 166)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="E4" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(355, 166)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/E4"]
+position = Vector2(355, 166)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="E5" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(390, 166)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/E5"]
+position = Vector2(390, 166)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="F1" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(250, 201)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/F1"]
+position = Vector2(250, 201)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="F2" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(285, 201)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/F2"]
+position = Vector2(285, 201)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="F3" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(320, 201)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/F3"]
+position = Vector2(320, 201)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="F4" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(355, 201)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/F4"]
+position = Vector2(355, 201)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="F5" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(390, 201)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/F5"]
+position = Vector2(390, 201)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="G1" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(250, 236)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/G1"]
+position = Vector2(250, 236)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="G2" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(285, 236)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/G2"]
+position = Vector2(285, 236)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="G3" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(320, 236)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/G3"]
+position = Vector2(320, 236)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="G4" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(355, 236)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/G4"]
+position = Vector2(355, 236)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="G5" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(390, 236)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/G5"]
+position = Vector2(390, 236)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="H1" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(250, 271)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/H1"]
+position = Vector2(250, 271)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="H2" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(285, 271)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/H2"]
+position = Vector2(285, 271)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="H3" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(320, 271)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/H3"]
+position = Vector2(320, 271)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="H4" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(355, 271)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/H4"]
+position = Vector2(355, 271)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="H5" type="Area2D" parent="Battlefield"]
+script = ExtResource("5_ktfr2")
+unit_position = Vector2(390, 271)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Battlefield/H5"]
+position = Vector2(390, 271)
+shape = SubResource("RectangleShape2D_44x8d")
+
+[node name="Shop" type="Node2D" parent="."]
+script = ExtResource("8_cw150")
+
+[node name="Reroll" type="Area2D" parent="Shop"]
+script = ExtResource("8_6gtgk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Reroll"]
+position = Vector2(469, 61)
+shape = SubResource("RectangleShape2D_xii2b")
+
+[node name="Label" type="Label" parent="Shop/Reroll"]
+offset_left = 493.0
+offset_top = 51.0
+offset_right = 533.0
+offset_bottom = 110.0
+text = "
+
+"
+label_settings = SubResource("LabelSettings_xii2b")
+
+[node name="1" type="Area2D" parent="Shop"]
+script = ExtResource("9_cw150")
+unit_position = Vector2(469, 96)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/1"]
+position = Vector2(469, 96)
+shape = SubResource("RectangleShape2D_ivpvi")
+
+[node name="Label" type="Label" parent="Shop/1"]
+offset_left = 493.0
+offset_top = 85.0
+offset_right = 533.0
+offset_bottom = 144.0
+text = "
+"
+label_settings = SubResource("LabelSettings_xii2b")
+
+[node name="2" type="Area2D" parent="Shop"]
+script = ExtResource("9_cw150")
+unit_position = Vector2(469, 131)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/2"]
+position = Vector2(469, 131)
+shape = SubResource("RectangleShape2D_ivpvi")
+
+[node name="Label" type="Label" parent="Shop/2"]
+offset_left = 493.0
+offset_top = 119.0
+offset_right = 533.0
+offset_bottom = 178.0
+label_settings = SubResource("LabelSettings_xii2b")
+
+[node name="3" type="Area2D" parent="Shop"]
+script = ExtResource("9_cw150")
+unit_position = Vector2(469, 166)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/3"]
+position = Vector2(469, 166)
+shape = SubResource("RectangleShape2D_ivpvi")
+
+[node name="Label" type="Label" parent="Shop/3"]
+offset_left = 493.0
+offset_top = 155.0
+offset_right = 533.0
+offset_bottom = 214.0
+text = "
+"
+label_settings = SubResource("LabelSettings_xii2b")
+
+[node name="4" type="Area2D" parent="Shop"]
+script = ExtResource("9_cw150")
+unit_position = Vector2(469, 201)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/4"]
+position = Vector2(469, 201)
+shape = SubResource("RectangleShape2D_ivpvi")
+
+[node name="Label" type="Label" parent="Shop/4"]
+offset_left = 493.0
+offset_top = 190.0
+offset_right = 533.0
+offset_bottom = 249.0
+text = "
+"
+label_settings = SubResource("LabelSettings_xii2b")
+
+[node name="5" type="Area2D" parent="Shop"]
+script = ExtResource("9_cw150")
+unit_position = Vector2(469, 236)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/5"]
+position = Vector2(469, 236)
+shape = SubResource("RectangleShape2D_ivpvi")
+
+[node name="Label" type="Label" parent="Shop/5"]
+offset_left = 493.0
+offset_top = 225.0
+offset_right = 533.0
+offset_bottom = 284.0
+text = "
+"
+label_settings = SubResource("LabelSettings_xii2b")
+
+[node name="Deck" type="Node2D" parent="."]
+script = ExtResource("11_xii2b")
+
+[node name="Marker2D" type="Marker2D" parent="Deck"]
+position = Vector2(469, 291)
+
+[node name="Button" type="Area2D" parent="."]
+script = ExtResource("12_rhqlf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Button"]
+position = Vector2(567.5, 315)
+shape = SubResource("RectangleShape2D_l5lfc")
+
+[node name="Units" type="Node2D" parent="." groups=["units"]]
+
+[connection signal="timeout" from="Background/Timer2" to="." method="move"]
+[connection signal="mouse_entered" from="Hand/1" to="Hand/1" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Hand/1" to="Hand/1" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Hand/2" to="Hand/2" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Hand/2" to="Hand/2" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Hand/3" to="Hand/3" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Hand/3" to="Hand/3" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Hand/4" to="Hand/4" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Hand/4" to="Hand/4" method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Hand/5" to="Hand/5" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Hand/5" to="Hand/5" method="_on_mouse_exited"]
