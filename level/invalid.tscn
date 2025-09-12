@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bm8bob60mj2uk"]
+
+[ext_resource type="PackedScene" uid="uid://dpjuiwsoov36x" path="res://level/error.tscn" id="1_oup48"]
+
+[node name="Error" instance=ExtResource("1_oup48")]
+
+[node name="Label" parent="Node" index="1"]
+text = "INVALID"

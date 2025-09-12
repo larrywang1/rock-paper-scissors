@@ -62,7 +62,7 @@ size = Vector2(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l5lfc"]
 size = Vector2(101, 52)
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="Node2D" groups=["level"]]
 script = ExtResource("1_qohg2")
 mana = 6
 health = 5

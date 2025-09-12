@@ -30,7 +30,7 @@ func move():
 				var current_area = $AreaRayCast.get_collider()
 				area = current_area
 
-			elif $Hitbox/UnitRayCast.is_colliding():
+			elif $Hitbox/UnitRayCast.is_colliding() and $Hitbox/UnitRayCast.get_collider() != null:
 				var collided_unit = $Hitbox/UnitRayCast.get_collider().get_parent()
 				if collided_unit not in clashed_units and collided_unit is not Unit:
 					clash(collided_unit)

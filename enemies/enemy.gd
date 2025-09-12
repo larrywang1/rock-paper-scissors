@@ -1,20 +1,5 @@
 extends Node2D
-class_name Unit
-
-enum states {SHOP, DECK, HAND, BATTLE, PICKED_UP}
-var state : states
-
-func _process(_delta: float) -> void:
-	match state:
-		states.PICKED_UP:
-			global_position = get_global_mouse_position()
-			z_index = 3
-		states.HAND:
-			z_index = 0
-		states.BATTLE:
-			z_index = 0
-			if state == states.BATTLE:
-				area = $AreaRayCast.get_collider()
+class_name Enemy
 
 var clashed_units = []
 var area : Area2D:
@@ -24,6 +9,9 @@ var area : Area2D:
 		area = value
 		if area != null:
 			area.unit = self
+func _process(delta: float) -> void:
+	area = $AreaRayCast.get_collider()
+
 @export var health : int = 1:
 	set(value):
 		health = value
@@ -49,6 +37,7 @@ var area : Area2D:
 @export var can_inject_mana : bool = true
 @export var left_ray_cast : RayCast2D
 @export var right_ray_cast : RayCast2D
+@export var description : String
 
 func update_position():
 	area = $AreaRayCast.get_collider()
@@ -58,30 +47,28 @@ func call_move():
 
 func move():
 	clashed_units = []
-	if state == states.BATTLE:
-		if can_move:
-			if mana_locked and current_mana == max_mana:
-				cast_ability()
-				return
-			if !$Hitbox/UnitRayCast.is_colliding():
-				global_position.y -= 35
-				if global_position.y <= 0:
-					area.unit = null
-					queue_free()
-					return
-				await get_tree().process_frame
-				area = $AreaRayCast.get_collider()
-
-			elif $Hitbox/UnitRayCast.is_colliding():
-				var collided_unit = $Hitbox/UnitRayCast.get_collider().get_parent()
-				if collided_unit not in clashed_units and collided_unit is not Unit:
-					clash(collided_unit)
-		if current_mana == max_mana:
+	if can_move:
+		if mana_locked and current_mana == max_mana:
 			cast_ability()
-		else:
-			current_mana = min(max_mana, current_mana + mana_regen)
-
-
+			return
+		if !$Hitbox/UnitRayCast.is_colliding():
+			global_position.y += 35
+			if global_position.y >= 290: #change this to > whateve then deal damage to player
+				area.unit = null
+				get_tree().get_first_node_in_group("level").damage()
+				queue_free()
+				return
+			await get_tree().process_frame
+			area = $AreaRayCast.get_collider()
+		elif $Hitbox/UnitRayCast.is_colliding():
+			var collided_unit = $Hitbox/UnitRayCast.get_collider().get_parent()
+			if collided_unit not in clashed_units and collided_unit is not Enemy:
+				clash(collided_unit)
+	if current_mana == max_mana:
+		cast_ability()
+	else:
+		current_mana = min(max_mana, current_mana + mana_regen)
+			
 func clash(unit):
 	attack_unit(unit)
 	unit.attack_unit(self)
@@ -97,10 +84,6 @@ func attack_unit(unit):
 	damage = max(0, damage - unit.defense)
 	unit.health =- damage
 	
-func instantiate_area():
-	area = $AreaRayCast.get_collider()
-	
-
 func cast_ability():
 	pass
 	
@@ -113,4 +96,5 @@ func on_attack_effect(unit):
 func on_damaged_effect():
 	pass
 
-@export var description : String
+func instantiate_area():
+	area = $AreaRayCast.get_collider()

@@ -2,11 +2,15 @@ extends Node2D
 
 var hovered_area : Area2D:
 	set(value):
+		
 		hovered_area = value
+		if lock_hovered_area:
+			return
 		if unit_in_hand == null:
 			if hovered_area != null:
 				if hovered_area.unit != null:
 					var unit = hovered_area.unit
+					hovered_area_unit = unit
 					$Info/Name.text = unit.name_
 					$Info/Class.text = unit.type.capitalize()
 					$Info/Cost.text = String.num_int64(unit.mana_cost)
@@ -16,6 +20,7 @@ var hovered_area : Area2D:
 					$Info/Mana.text = String.num_int64(unit.current_mana) + "/" + String.num_int64(unit.max_mana)
 					$Info/Description.text = unit.description
 				else:
+					hovered_area_unit = null
 					$Info/Name.text = ""
 					$Info/Class.text = ""
 					$Info/Cost.text = ""
@@ -25,6 +30,7 @@ var hovered_area : Area2D:
 					$Info/Mana.text = ""
 					$Info/Description.text = ""
 			else:
+				hovered_area_unit = null
 				$Info/Name.text = ""
 				$Info/Class.text = ""
 				$Info/Cost.text = ""
@@ -33,9 +39,13 @@ var hovered_area : Area2D:
 				$Info/DEF.text = ""
 				$Info/Mana.text = ""
 				$Info/Description.text = ""
+var lock_hovered_area = false
+var locked_hovered_area
+var lock_clicking_off = false
 var hovered_button : Area2D
 var unit_in_hand : Node2D
 var area_grabbed_from : Node2D
+var hovered_area_unit 
 
 func _input(event):
 	if event is InputEventMouseButton: 
@@ -47,6 +57,18 @@ func _input(event):
 						unit_in_hand = hovered_area.unit
 						hovered_area.unit = null
 						area_grabbed_from = hovered_area
+					if hovered_area in $Battlefield.get_children():
+						lock_hovered_area = false
+						hovered_area = hovered_area
+						lock_hovered_area = true
+						locked_hovered_area = hovered_area
+						
+
+			if hovered_area != locked_hovered_area and !lock_clicking_off:
+				lock_hovered_area = false
+				locked_hovered_area = null
+				hovered_area = hovered_area
+						
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and !event.pressed:
 			if unit_in_hand and hovered_area in $Hand.slots and hovered_area.unit == null:
@@ -114,6 +136,56 @@ func _input(event):
 func _process(_delta):
 	$Background/Timer.value = $Background/Timer2.time_left
 
+func left():
+	if hovered_area_unit == null or hovered_area_unit is not Unit:
+		return
+	
+	if mana > 0:
+		if hovered_area_unit.left_ray_cast.is_colliding():
+			var area = hovered_area_unit.left_ray_cast.get_collider()
+			if area.unit == null:
+				hovered_area_unit.global_position.x -= 35
+				mana -= 1
+				hovered_area_unit.update_position()
+			else:
+				add_child(preload("res://level/invalid.tscn").instantiate())
+		else:
+			add_child(preload("res://level/invalid.tscn").instantiate())
+	else:
+		add_child(preload("res://level/error.tscn").instantiate())
+func right():
+	if hovered_area_unit == null or hovered_area_unit is not Unit:
+		return
+	
+	if mana > 0:
+		if hovered_area_unit.right_ray_cast.is_colliding():
+			var area = hovered_area_unit.right_ray_cast.get_collider()
+			if area.unit == null:
+				hovered_area_unit.global_position.x += 35
+				mana -= 1
+				hovered_area_unit.update_position()
+			else:
+				add_child(preload("res://level/invalid.tscn").instantiate())
+		else:
+			add_child(preload("res://level/invalid.tscn").instantiate())
+	else:
+		add_child(preload("res://level/error.tscn").instantiate())
+func add_mana():
+	if hovered_area_unit == null or hovered_area_unit is not Unit:
+		return
+	
+	if mana > 0:
+		if hovered_area_unit.current_mana < hovered_area_unit.max_mana and hovered_area_unit is Unit:
+			mana -= 1
+			hovered_area_unit.current_mana += 1
+			$Info/Mana.text = String.num_int64(hovered_area_unit.current_mana) + "/" + String.num_int64(hovered_area_unit.max_mana)
+		else:
+			add_child(preload("res://level/invalid.tscn").instantiate())
+	else:
+		add_child(preload("res://level/error.tscn").instantiate())
+
+
+
 @export var mana : int = 0:
 	set(value):
 		mana = value
@@ -136,6 +208,13 @@ var wave = 0
 		health = value
 		call_deferred("update_stats")
 
+func damage():
+	health -= 1
+	if health < 1:
+		game_over()
+func game_over():
+	pass
+
 func update_stats():
 	$Background/Mana.text = String.num_int64(mana) + "/" + String.num_int64(max_mana)
 	$Background/ManaRegen.text = String("+" + String.num_int64(mana_regen))
@@ -155,5 +234,12 @@ func move():
 		units.append(i.unit)
 	for i in units:
 		if i != null:
-			await get_tree().process_frame
-			i.move()
+			await get_tree().physics_frame
+			i.call_move()
+	if locked_hovered_area != null:
+		await get_tree().process_frame
+		$Info/Cost.text = String.num_int64(hovered_area_unit.mana_cost)
+		$Info/HP.text = "HP:" + String.num_int64(hovered_area_unit.health)
+		$Info/ATK.text = "ATK:" + String.num_int64(hovered_area_unit.attack)
+		$Info/DEF.text = "DEF:" + String.num_int64(hovered_area_unit.defense)
+		$Info/Mana.text = String.num_int64(hovered_area_unit.current_mana) + "/" + String.num_int64(hovered_area_unit.max_mana)

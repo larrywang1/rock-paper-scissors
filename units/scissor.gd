@@ -5,6 +5,10 @@ func cast_ability():
 		global_position.y -= 70
 		var current_area = $AreaRayCast.get_collider()
 		area = current_area
+		if global_position.y <= 0:
+			area.unit = null
+			queue_free()
+			return
 	else:
 		if !$Hitbox/UnitRayCast.is_colliding():
 			global_position.y -= 35
