@@ -16,6 +16,7 @@ func _process(delta: float) -> void:
 	set(value):
 		health = value
 		if value <= 0:
+			get_tree().get_first_node_in_group("level").money += money
 			on_death()
 			area.unit = null
 			queue_free()
@@ -23,8 +24,6 @@ func _process(delta: float) -> void:
 			on_damaged_effect()
 @export var attack : int
 @export var defense : int
-@export var mana_cost : int
-@export var cost : int
 @export var type : String
 @export var name_ : String
 @export var max_mana : int
@@ -32,12 +31,10 @@ func _process(delta: float) -> void:
 @export var mana_regen : int
 @export var can_move : bool = true
 @export var mana_locked : bool = false
-@export var ally : bool = true
-@export var can_move_horizontally : bool = true
-@export var can_inject_mana : bool = true
-@export var left_ray_cast : RayCast2D
-@export var right_ray_cast : RayCast2D
+@export var ally : bool = false
+
 @export var description : String
+@export var money : int
 
 func update_position():
 	area = $AreaRayCast.get_collider()
@@ -82,7 +79,11 @@ func attack_unit(unit):
 	if unit.type in bonuses.keys():
 		damage += bonuses[unit.type]
 	damage = max(0, damage - unit.defense)
-	unit.health =- damage
+	unit.health -= damage
+	var damagefx = preload("res://level/damage_indicator.tscn").instantiate()
+	damagefx.text = "-" + String.num_int64(damage)
+	damagefx.global_position = unit.global_position + Vector2(0, -10)
+	get_tree().get_first_node_in_group("units").add_child(damagefx)
 	
 func cast_ability():
 	pass

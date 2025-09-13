@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://cpsncgr37xxbn"]
+
+[ext_resource type="PackedScene" uid="uid://ciq74sv8k01jp" path="res://enemies/enemy.tscn" id="1_yava6"]
+[ext_resource type="Script" uid="uid://b27g8f5t8lmms" path="res://enemies/enemy_scissors.gd" id="2_v37sr"]
+[ext_resource type="Texture2D" uid="uid://b4tb67iguydqe" path="res://images/enemy_scissors.png" id="3_48501"]
+
+[node name="EnemyScissors" instance=ExtResource("1_yava6")]
+script = ExtResource("2_v37sr")
+health = 3
+attack = 2
+type = "scissor"
+name_ = "Scissor"
+max_mana = 3
+mana_regen = 1
+mana_locked = true
+description = "Dash up to 2 spaces ahead then attack the enemy in front. +3 attack vs. paper. -1 attack vs. rock."
+money = 5
+bonuses = Dictionary[String, int]({
+"paper": 3,
+"rock": -1
+})
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("3_48501")
+
+[node name="UnitRayCast2" type="RayCast2D" parent="Hitbox" index="2"]
+target_position = Vector2(0, 70)
+collision_mask = 2
+hit_from_inside = true
+collide_with_areas = true
+collide_with_bodies = false

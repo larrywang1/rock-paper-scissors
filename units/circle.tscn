@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://1d1wwxk70td"]
+
+[ext_resource type="PackedScene" uid="uid://yvm4swoxd1xe" path="res://units/unit.tscn" id="1_sohs5"]
+[ext_resource type="Texture2D" uid="uid://btwvtnwcnf54r" path="res://images/circle.png" id="2_8p3io"]
+[ext_resource type="Script" uid="uid://bdnbdgrjuywif" path="res://units/circle.gd" id="2_8taky"]
+
+[node name="Circle" instance=ExtResource("1_sohs5")]
+script = ExtResource("2_8taky")
+health = 5
+attack = 2
+mana_cost = 3
+cost = 6
+type = "paper"
+name_ = "Circle"
+can_inject_mana = false
+bonuses = Dictionary[String, int]({
+"rock": 2,
+"scissor": -1
+})
+description = "On attack, attack the units on the left and right. +2 attack vs. rock. -1 attack vs. scissors "
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_8p3io")
+
+[node name="Left" type="RayCast2D" parent="." index="3"]
+target_position = Vector2(-35, 0)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="Right" type="RayCast2D" parent="." index="4"]
+target_position = Vector2(35, 0)
+collision_mask = 2
+collide_with_areas = true
+collide_with_bodies = false

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c5rcygsjlhsv6"]
+
+[ext_resource type="PackedScene" uid="uid://yvm4swoxd1xe" path="res://units/unit.tscn" id="1_evdsw"]
+[ext_resource type="Script" uid="uid://c2okmc7h210io" path="res://units/tree.gd" id="2_5yalx"]
+[ext_resource type="Texture2D" uid="uid://c8t521ma1q3om" path="res://images/tree.png" id="3_dbhod"]
+
+[node name="Tree" instance=ExtResource("1_evdsw")]
+script = ExtResource("2_5yalx")
+health = 2
+defense = 1
+mana_cost = 4
+cost = 10
+type = "rock"
+name_ = "Tree"
+max_mana = 2
+mana_regen = 1
+can_move = false
+can_inject_mana = false
+description = "Generate one mana. Cannot move. On death increase max mana by 1."
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("3_dbhod")

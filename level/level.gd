@@ -13,7 +13,8 @@ var hovered_area : Area2D:
 					hovered_area_unit = unit
 					$Info/Name.text = unit.name_
 					$Info/Class.text = unit.type.capitalize()
-					$Info/Cost.text = String.num_int64(unit.mana_cost)
+					if unit is Unit:
+						$Info/Cost.text = String.num_int64(unit.mana_cost)
 					$Info/HP.text = "HP:" + String.num_int64(unit.health)
 					$Info/ATK.text = "ATK:" + String.num_int64(unit.attack)
 					$Info/DEF.text = "DEF:" + String.num_int64(unit.defense)
@@ -77,14 +78,14 @@ func _input(event):
 				unit_in_hand.global_position = hovered_area.unit_position
 				unit_in_hand = null
 			elif unit_in_hand and hovered_area in $Battlefield.placable_slots and hovered_area.unit == null:
-				if unit_in_hand.cost > mana:
+				if unit_in_hand.mana_cost > mana:
 					area_grabbed_from.unit =  unit_in_hand
 					unit_in_hand.state = unit_in_hand.states.HAND
 					unit_in_hand.global_position = area_grabbed_from.unit_position
 					unit_in_hand = null
 					add_child(preload("res://level/error.tscn").instantiate())
 					return
-				mana -= unit_in_hand.cost
+				mana -= unit_in_hand.mana_cost
 				hovered_area.unit = unit_in_hand
 				unit_in_hand.state = unit_in_hand.states.BATTLE
 				unit_in_hand.global_position = hovered_area.unit_position
@@ -138,8 +139,11 @@ func _process(_delta):
 
 func left():
 	if hovered_area_unit == null or hovered_area_unit is not Unit:
+		add_child(preload("res://level/invalid.tscn").instantiate())
 		return
-	
+	if !hovered_area_unit.can_move_horizontally:
+		add_child(preload("res://level/invalid.tscn").instantiate())
+		return
 	if mana > 0:
 		if hovered_area_unit.left_ray_cast.is_colliding():
 			var area = hovered_area_unit.left_ray_cast.get_collider()
@@ -155,8 +159,11 @@ func left():
 		add_child(preload("res://level/error.tscn").instantiate())
 func right():
 	if hovered_area_unit == null or hovered_area_unit is not Unit:
+		add_child(preload("res://level/invalid.tscn").instantiate())
 		return
-	
+	if !hovered_area_unit.can_move_horizontally:
+		add_child(preload("res://level/invalid.tscn").instantiate())
+		return
 	if mana > 0:
 		if hovered_area_unit.right_ray_cast.is_colliding():
 			var area = hovered_area_unit.right_ray_cast.get_collider()
@@ -172,8 +179,11 @@ func right():
 		add_child(preload("res://level/error.tscn").instantiate())
 func add_mana():
 	if hovered_area_unit == null or hovered_area_unit is not Unit:
+		add_child(preload("res://level/invalid.tscn").instantiate())
 		return
-	
+	if !hovered_area_unit.can_inject_mana:
+		add_child(preload("res://level/invalid.tscn").instantiate())
+		return
 	if mana > 0:
 		if hovered_area_unit.current_mana < hovered_area_unit.max_mana and hovered_area_unit is Unit:
 			mana -= 1
@@ -235,10 +245,12 @@ func move():
 	for i in units:
 		if i != null:
 			await get_tree().physics_frame
-			i.call_move()
+			if i != null:
+				i.call_move()
 	if locked_hovered_area != null:
 		await get_tree().process_frame
-		$Info/Cost.text = String.num_int64(hovered_area_unit.mana_cost)
+		if hovered_area_unit is Unit:
+			$Info/Cost.text = String.num_int64(hovered_area_unit.mana_cost)
 		$Info/HP.text = "HP:" + String.num_int64(hovered_area_unit.health)
 		$Info/ATK.text = "ATK:" + String.num_int64(hovered_area_unit.attack)
 		$Info/DEF.text = "DEF:" + String.num_int64(hovered_area_unit.defense)

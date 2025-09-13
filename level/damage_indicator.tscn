@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://raooxpva561t"]
+
+[ext_resource type="Script" uid="uid://p242ggqxv0yl" path="res://level/damage_indicator.gd" id="1_agvt1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_agvt1"]
+font_color = Color(0.894118, 0.176471, 0.219608, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="DamageIndicator" type="Label"]
+offset_right = 40.0
+offset_bottom = 14.0
+label_settings = SubResource("LabelSettings_agvt1")
+script = ExtResource("1_agvt1")

@@ -14,6 +14,7 @@ bonuses = Dictionary[String, int]({
 "rock": 3,
 "scissor": -3
 })
+description = "+3 attack vs. rock. -3 attack vs. scissor"
 
 [node name="Sprite" parent="." index="0"]
 texture = ExtResource("2_nopv1")

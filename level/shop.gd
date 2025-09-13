@@ -1,9 +1,9 @@
 extends Node2D
 @onready var shop_slots = [$"1",$"2",$"3",$"4",$"5"]
 var shop_items = []
-var odds = {"common":1,"uncommon":0,"rare":0}
+var odds = {"common":0.9,"uncommon":1,"rare":0}
 var common = [preload("res://units/rock.tscn"), preload("res://units/scissor.tscn"), preload("res://units/paper.tscn")]
-var uncommon = []
+var uncommon = [preload("res://units/tree.tscn"), preload("res://units/circle.tscn")]
 var rare = []
 func reroll():
 	for i in shop_slots:

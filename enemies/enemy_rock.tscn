@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://5n1o8pbyuopm"]
+
+[ext_resource type="PackedScene" uid="uid://ciq74sv8k01jp" path="res://enemies/enemy.tscn" id="1_byv40"]
+[ext_resource type="Script" uid="uid://bsckhwv81et0v" path="res://enemies/enemy_rock.gd" id="2_h8m78"]
+[ext_resource type="Texture2D" uid="uid://dsrdj0fnl3hy" path="res://images/enemy_rock.png" id="3_yc2mb"]
+
+[node name="EnemyRock" instance=ExtResource("1_byv40")]
+script = ExtResource("2_h8m78")
+health = 5
+attack = 1
+mana_cost = 2
+type = "rock"
+name_ = "Rock"
+max_mana = 3
+current_mana = 1
+mana_regen = 1
+description = "Gain 2 defense for the next attack. -1 attack vs. paper. +3 attack vs. scissor"
+money = 5
+bonuses = Dictionary[String, int]({
+"paper": -1,
+"scissor": 3
+})
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("3_yc2mb")

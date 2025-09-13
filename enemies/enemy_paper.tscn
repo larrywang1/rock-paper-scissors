@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://blf13msrno4pd"]
+
+[ext_resource type="PackedScene" uid="uid://ciq74sv8k01jp" path="res://enemies/enemy.tscn" id="1_1ycps"]
+[ext_resource type="Script" uid="uid://nonk7whjxg33" path="res://enemies/enemy_paper.gd" id="2_q1ucx"]
+[ext_resource type="Texture2D" uid="uid://b8h5kxtlu8sb" path="res://images/enemy_paper.png" id="3_j82i2"]
+
+[node name="EnemyPaper" instance=ExtResource("1_1ycps")]
+script = ExtResource("2_q1ucx")
+health = 2
+attack = 3
+type = "paper"
+name_ = "Paper"
+max_mana = 3
+current_mana = 1
+mana_regen = 1
+description = "Create a paper airplane projectile. +3 attack vs. rock. -2 attack vs. scissors"
+money = 5
+bonuses = Dictionary[String, int]({
+"rock": 3,
+"scissor": -2
+})
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("3_j82i2")

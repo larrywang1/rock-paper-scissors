@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://c1mw0ap74x7ds"]
+[gd_scene load_steps=32 format=3 uid="uid://c1mw0ap74x7ds"]
 
 [ext_resource type="Texture2D" uid="uid://gwxilvgw3hse" path="res://images/background.png" id="1_7lnir"]
 [ext_resource type="Script" uid="uid://icfof05yxe40" path="res://level/level.gd" id="1_qohg2"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://drbirta3ycejn" path="res://level/shop_slot.gd" id="9_cw150"]
 [ext_resource type="Script" uid="uid://djpojj71cnigh" path="res://level/deck.gd" id="11_xii2b"]
 [ext_resource type="Script" uid="uid://drtnjb4xnao6r" path="res://level/button.gd" id="12_rhqlf"]
+[ext_resource type="PackedScene" uid="uid://blf13msrno4pd" path="res://enemies/enemy_paper.tscn" id="16_7jqyl"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rhqlf"]
 font_color = Color(0.894118, 0.176471, 0.219608, 1)
@@ -146,31 +147,31 @@ offset_bottom = 82.0
 label_settings = SubResource("LabelSettings_m5ivw")
 
 [node name="ATK" type="Label" parent="Info"]
-offset_left = 34.0
-offset_top = 87.0
-offset_right = 74.0
-offset_bottom = 101.0
+offset_left = 101.0
+offset_top = 68.0
+offset_right = 141.0
+offset_bottom = 82.0
 label_settings = SubResource("LabelSettings_m5ivw")
 
 [node name="DEF" type="Label" parent="Info"]
 offset_left = 34.0
-offset_top = 106.0
+offset_top = 85.0
 offset_right = 74.0
-offset_bottom = 120.0
+offset_bottom = 99.0
 label_settings = SubResource("LabelSettings_m5ivw")
 
 [node name="Mana" type="Label" parent="Info"]
-offset_left = 34.0
-offset_top = 125.0
-offset_right = 74.0
-offset_bottom = 139.0
+offset_left = 101.0
+offset_top = 85.0
+offset_right = 141.0
+offset_bottom = 99.0
 label_settings = SubResource("LabelSettings_m5ivw")
 
 [node name="Description" type="Label" parent="Info"]
 offset_left = 34.0
-offset_top = 145.0
+offset_top = 105.0
 offset_right = 159.0
-offset_bottom = 193.0
+offset_bottom = 171.0
 label_settings = SubResource("LabelSettings_m5ivw")
 autowrap_mode = 3
 
@@ -684,6 +685,9 @@ position = Vector2(567.5, 315)
 shape = SubResource("RectangleShape2D_l5lfc")
 
 [node name="Units" type="Node2D" parent="." groups=["units"]]
+
+[node name="EnemyPaper" parent="." instance=ExtResource("16_7jqyl")]
+position = Vector2(250, 26)
 
 [connection signal="timeout" from="Background/Timer2" to="." method="move"]
 [connection signal="mouse_entered" from="Hand/1" to="Hand/1" method="_on_mouse_entered"]

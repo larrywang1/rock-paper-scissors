@@ -95,7 +95,11 @@ func attack_unit(unit):
 	if unit.type in bonuses.keys():
 		damage += bonuses[unit.type]
 	damage = max(0, damage - unit.defense)
-	unit.health =- damage
+	unit.health -= damage
+	var damagefx = preload("res://level/damage_indicator.tscn").instantiate()
+	damagefx.text = "-" + String.num_int64(damage)
+	damagefx.global_position = unit.global_position + Vector2(0, -10)
+	get_tree().get_first_node_in_group("units").add_child(damagefx)
 	
 func instantiate_area():
 	area = $AreaRayCast.get_collider()
