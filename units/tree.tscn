@@ -7,12 +7,13 @@
 [node name="Tree" instance=ExtResource("1_evdsw")]
 script = ExtResource("2_5yalx")
 health = 2
+attack = 1
 defense = 1
 mana_cost = 4
-cost = 10
+cost = 8
 type = "rock"
 name_ = "Tree"
-max_mana = 2
+max_mana = 4
 mana_regen = 1
 can_move = false
 can_inject_mana = false

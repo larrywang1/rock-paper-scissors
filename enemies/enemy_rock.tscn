@@ -8,14 +8,13 @@
 script = ExtResource("2_h8m78")
 health = 5
 attack = 1
-mana_cost = 2
 type = "rock"
 name_ = "Rock"
 max_mana = 3
 current_mana = 1
 mana_regen = 1
 description = "Gain 2 defense for the next attack. -1 attack vs. paper. +3 attack vs. scissor"
-money = 5
+money = 4
 bonuses = Dictionary[String, int]({
 "paper": -1,
 "scissor": 3

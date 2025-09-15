@@ -18,7 +18,8 @@ func _process(delta: float) -> void:
 		if value <= 0:
 			get_tree().get_first_node_in_group("level").money += money
 			on_death()
-			area.unit = null
+			if area != null:
+				area.unit = null
 			queue_free()
 		else:
 			on_damaged_effect()
@@ -55,7 +56,6 @@ func move():
 				get_tree().get_first_node_in_group("level").damage()
 				queue_free()
 				return
-			await get_tree().process_frame
 			area = $AreaRayCast.get_collider()
 		elif $Hitbox/UnitRayCast.is_colliding():
 			var collided_unit = $Hitbox/UnitRayCast.get_collider().get_parent()
@@ -79,6 +79,8 @@ func attack_unit(unit):
 	if unit.type in bonuses.keys():
 		damage += bonuses[unit.type]
 	damage = max(0, damage - unit.defense)
+	if unit.health <= damage:
+		on_kill()
 	unit.health -= damage
 	var damagefx = preload("res://level/damage_indicator.tscn").instantiate()
 	damagefx.text = "-" + String.num_int64(damage)
@@ -95,6 +97,9 @@ func on_attack_effect(unit):
 	pass
 
 func on_damaged_effect():
+	pass
+
+func on_kill():
 	pass
 
 func instantiate_area():

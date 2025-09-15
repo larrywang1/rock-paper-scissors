@@ -14,7 +14,7 @@ max_mana = 3
 mana_regen = 1
 mana_locked = true
 description = "Dash up to 2 spaces ahead then attack the enemy in front. +3 attack vs. paper. -1 attack vs. rock."
-money = 5
+money = 4
 bonuses = Dictionary[String, int]({
 "paper": 3,
 "rock": -1

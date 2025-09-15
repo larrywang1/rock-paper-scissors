@@ -91,6 +91,7 @@ func _input(event):
 				unit_in_hand.global_position = hovered_area.unit_position
 				unit_in_hand.area = hovered_area
 				unit_in_hand = null
+				$Sound/Place.playing = true
 			elif unit_in_hand and hovered_area in $Hand.slots and hovered_area.unit != null:
 				area_grabbed_from.unit = hovered_area.unit
 				area_grabbed_from.unit.global_position = area_grabbed_from.unit_position
@@ -108,6 +109,7 @@ func _input(event):
 					$Shop.shop_items.remove_at($Shop.shop_items.find(hovered_area.unit))
 					money -= hovered_area.unit.cost
 					$Hand.find_free_slots()
+					$Sound/Buy.playing = true
 					if $Hand.free_slots.size() >= 1:
 						var unit = hovered_area.unit
 						hovered_area.unit = null
@@ -209,7 +211,7 @@ var mana_regen : int = 1:
 		mana_regen = value
 		call_deferred("update_stats")
 var wave = 0
-@export var money : int =10000:
+@export var money : int = 5:
 	set(value):
 		money = value
 		call_deferred("update_stats")
@@ -220,10 +222,11 @@ var wave = 0
 
 func damage():
 	health -= 1
+	$Sound/Hurt.playing = true
 	if health < 1:
 		game_over()
 func game_over():
-	pass
+	get_tree().reload_current_scene()
 
 func update_stats():
 	$Background/Mana.text = String.num_int64(mana) + "/" + String.num_int64(max_mana)
@@ -231,9 +234,15 @@ func update_stats():
 	$Background/Health.text = String.num_int64(health)
 	$Background/Money.text = String.num_int64(money)
 
+var count = 0
+var threshold = 3
 func move():
 	wave += 1
 	mana = min(max_mana, mana + mana_regen)
+	money += 1
+	count += 1
+	$EnemySpawner.update(wave)
+	
 	$Hand.find_free_slots()
 	$Shop.update_odds()
 	$Shop.reroll()
@@ -255,3 +264,6 @@ func move():
 		$Info/ATK.text = "ATK:" + String.num_int64(hovered_area_unit.attack)
 		$Info/DEF.text = "DEF:" + String.num_int64(hovered_area_unit.defense)
 		$Info/Mana.text = String.num_int64(hovered_area_unit.current_mana) + "/" + String.num_int64(hovered_area_unit.max_mana)
+	if count >= threshold:
+		count = 0
+		$EnemySpawner.spawn()

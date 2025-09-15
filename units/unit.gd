@@ -29,7 +29,8 @@ var area : Area2D:
 		health = value
 		if value <= 0:
 			on_death()
-			area.unit = null
+			if area != null:
+				area.unit = null
 			queue_free()
 		else:
 			on_damaged_effect()
@@ -90,12 +91,17 @@ func clash(unit):
 
 @export var bonuses : Dictionary[String, int]
 func attack_unit(unit):
+	if unit == null:
+		return
 	on_attack_effect(unit)
 	var damage = attack
 	if unit.type in bonuses.keys():
 		damage += bonuses[unit.type]
 	damage = max(0, damage - unit.defense)
+	if unit.health <= damage:
+		on_kill()
 	unit.health -= damage
+	get_tree().get_first_node_in_group("sound").get_child(0).playing = true
 	var damagefx = preload("res://level/damage_indicator.tscn").instantiate()
 	damagefx.text = "-" + String.num_int64(damage)
 	damagefx.global_position = unit.global_position + Vector2(0, -10)
@@ -115,6 +121,9 @@ func on_attack_effect(unit):
 	pass
 
 func on_damaged_effect():
+	pass
+	
+func on_kill():
 	pass
 
 @export var description : String

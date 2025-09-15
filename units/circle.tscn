@@ -7,7 +7,7 @@
 [node name="Circle" instance=ExtResource("1_sohs5")]
 script = ExtResource("2_8taky")
 health = 5
-attack = 2
+attack = 3
 mana_cost = 3
 cost = 6
 type = "paper"

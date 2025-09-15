@@ -14,7 +14,7 @@ max_mana = 3
 current_mana = 1
 mana_regen = 1
 description = "Create a paper airplane projectile. +3 attack vs. rock. -2 attack vs. scissors"
-money = 5
+money = 4
 bonuses = Dictionary[String, int]({
 "rock": 3,
 "scissor": -2

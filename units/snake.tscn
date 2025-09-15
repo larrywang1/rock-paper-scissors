@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://3wi6axp1734y"]
+
+[ext_resource type="PackedScene" uid="uid://yvm4swoxd1xe" path="res://units/unit.tscn" id="1_ul0c8"]
+[ext_resource type="Script" uid="uid://ds1nudcfw6fdy" path="res://units/snake.gd" id="2_lu588"]
+[ext_resource type="Texture2D" uid="uid://l8k72naj1hj4" path="res://images/snake.png" id="2_n7ih1"]
+
+[node name="Snake" instance=ExtResource("1_ul0c8")]
+script = ExtResource("2_lu588")
+health = 2
+attack = 3
+defense = 1
+mana_cost = 4
+cost = 6
+type = "scissor"
+name_ = "Snake"
+max_mana = 2
+mana_regen = 1
+bonuses = Dictionary[String, int]({
+"paper": 1,
+"rock": -1
+})
+description = "Heal one health. On kill, restore one mana and increase attack by 1. +1 attack vs. paper. -1 attack vs. rock."
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_n7ih1")

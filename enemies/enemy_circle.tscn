@@ -7,11 +7,11 @@
 [node name="EnemyCircle" instance=ExtResource("1_17bu2")]
 script = ExtResource("2_k3ixt")
 health = 5
-attack = 2
+attack = 3
 type = "paper"
 name_ = "Circle"
 description = "On attack, attack the units on the left and right. +2 attack vs. rock. -1 attack vs. scissors "
-money = 8
+money = 5
 bonuses = Dictionary[String, int]({
 "rock": 2,
 "scissor": -1

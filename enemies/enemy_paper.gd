@@ -25,7 +25,6 @@ func move():
 				get_tree().get_first_node_in_group("level").damage()
 				queue_free()
 				return
-			await get_tree().process_frame
 			var current_area = $AreaRayCast.get_collider()
 			area = current_area
 

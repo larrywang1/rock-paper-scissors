@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://c1mw0ap74x7ds"]
+[gd_scene load_steps=37 format=3 uid="uid://c1mw0ap74x7ds"]
 
 [ext_resource type="Texture2D" uid="uid://gwxilvgw3hse" path="res://images/background.png" id="1_7lnir"]
 [ext_resource type="Script" uid="uid://icfof05yxe40" path="res://level/level.gd" id="1_qohg2"]
@@ -15,7 +15,12 @@
 [ext_resource type="Script" uid="uid://drbirta3ycejn" path="res://level/shop_slot.gd" id="9_cw150"]
 [ext_resource type="Script" uid="uid://djpojj71cnigh" path="res://level/deck.gd" id="11_xii2b"]
 [ext_resource type="Script" uid="uid://drtnjb4xnao6r" path="res://level/button.gd" id="12_rhqlf"]
-[ext_resource type="PackedScene" uid="uid://blf13msrno4pd" path="res://enemies/enemy_paper.tscn" id="16_7jqyl"]
+[ext_resource type="AudioStream" uid="uid://bs6521n6ge5l0" path="res://images/hitHurt.wav" id="17_m5ivw"]
+[ext_resource type="AudioStream" uid="uid://c5h3r5310afo2" path="res://images/jump.wav" id="18_kp5pi"]
+[ext_resource type="AudioStream" uid="uid://dljrcw5c2wnhr" path="res://images/blipSelect.wav" id="19_b7y0n"]
+[ext_resource type="AudioStream" uid="uid://d2d5yam0chtwj" path="res://images/hitHurt (1).wav" id="20_v4yay"]
+[ext_resource type="AudioStream" uid="uid://csoaqda7cqui5" path="res://images/powerUp.wav" id="21_b7y0n"]
+[ext_resource type="Script" uid="uid://dg25ud24t7aj6" path="res://level/enemy_spawner.gd" id="22_v4yay"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rhqlf"]
 font_color = Color(0.894118, 0.176471, 0.219608, 1)
@@ -686,8 +691,25 @@ shape = SubResource("RectangleShape2D_l5lfc")
 
 [node name="Units" type="Node2D" parent="." groups=["units"]]
 
-[node name="EnemyPaper" parent="." instance=ExtResource("16_7jqyl")]
-position = Vector2(250, 26)
+[node name="Sound" type="Node" parent="." groups=["sound"]]
+
+[node name="Hit" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("17_m5ivw")
+
+[node name="Place" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("18_kp5pi")
+
+[node name="Buy" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("19_b7y0n")
+
+[node name="Hurt" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("20_v4yay")
+
+[node name="Reroll" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("21_b7y0n")
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("22_v4yay")
 
 [connection signal="timeout" from="Background/Timer2" to="." method="move"]
 [connection signal="mouse_entered" from="Hand/1" to="Hand/1" method="_on_mouse_entered"]
